@@ -28,6 +28,9 @@ public:
         sp_parity _parity, int _stop_bits
     );
 
+    char read(char *byte_buff, int buff_len);
+    int read_line(char *byte_buff, int buff_len);
+
     void close(void);
 
 private:
@@ -45,8 +48,8 @@ private:
     int bit_size = 8;
     int stop_bits = 1;
 
-    int buff_len;      /**< Buffer length for the data comming from the port */
-    char byte_buff[100]; /**< Buffer to save incoming bytes */
+    // int buff_len;      /**< Buffer length for the data comming from the port */
+    // char byte_buff[100]; /**< Buffer to save incoming bytes */
     char byte_in[1];   /**< Char to collect each incoming byte */
   
     /** \fn void setup(int baud)

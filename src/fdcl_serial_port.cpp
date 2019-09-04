@@ -37,6 +37,7 @@ fdcl::serial_port::~serial_port(void)
 {
     if (is_open)
     {
+
         fdcl::serial_port::close();
     }
 }
@@ -68,7 +69,6 @@ void fdcl::serial_port::init(void)
 {
     port_name = "/dev/ttyUSB0";
     baud_rate = 9600;
-    buff_len = sizeof(byte_buff);
 }
 
 
@@ -222,3 +222,50 @@ void fdcl::serial_port::setup_port(void)
 
     is_open  = true;
 }
+
+
+char fdcl::serial_port::read(char *byte_buff, int buff_len)
+{
+    int byte_num, bytes_waiting;
+
+    bytes_waiting = sp_input_waiting(port);
+    if (bytes_waiting >= buff_len)
+    {
+        int pos = 0;
+        char byte_in[1];
+        while (pos < bytes_waiting)
+        {
+            byte_num = sp_blocking_read_next(port, byte_in, 1, 0);
+            byte_buff[pos] = byte_in[0];
+            pos++;
+        }
+
+    }
+
+    return *byte_in;
+}
+
+
+int fdcl::serial_port::read_line(char *byte_buff, int buff_len)
+{
+    int byte_num, bytes_waiting;
+
+    bytes_waiting = sp_input_waiting(port);
+    if (bytes_waiting >= buff_len)
+    {
+        int pos = 0;
+        char byte_in[1];
+        while (pos < bytes_waiting)
+        {
+            byte_num = sp_blocking_read_next(port, byte_in, 1, 0);
+            byte_buff[pos] = byte_in[0];
+            
+            if (byte_in[0] == '\n') break;
+            pos++;
+        }
+
+    }
+
+    return byte_num;
+}
+
