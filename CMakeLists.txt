@@ -29,3 +29,6 @@ set(test_serial_port_src
     src/main.cpp
 )
 add_executable(test_serial_port ${test_serial_port_src})
+target_link_libraries(test_serial_port
+    PUBLIC fdcl_serial_port
+)

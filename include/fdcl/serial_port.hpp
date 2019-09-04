@@ -5,10 +5,11 @@ namespace fdcl
 {
 class serial_port
 {
+public:
     serial_port();
     ~serial_port();
 
-    
+
 };  // end of class serial_port
 }  // end of namespace fdcl
 

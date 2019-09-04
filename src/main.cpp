@@ -2,5 +2,5 @@
 
 int main(void)
 {
-
+    fdcl::serial_port serial;
 }
