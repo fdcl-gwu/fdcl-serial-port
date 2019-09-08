@@ -30,6 +30,7 @@ public:
 
     char read(char *byte_buff, int buff_len);
     int read_line(char *byte_buff, int buff_len);
+    int clear_buffer_until_newline(void);
 
     void close(void);
 

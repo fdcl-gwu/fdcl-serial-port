@@ -248,24 +248,49 @@ char fdcl::serial_port::read(char *byte_buff, int buff_len)
 
 int fdcl::serial_port::read_line(char *byte_buff, int buff_len)
 {
+    int pos = 0;
     int byte_num, bytes_waiting;
 
     bytes_waiting = sp_input_waiting(port);
     if (bytes_waiting >= buff_len)
     {
-        int pos = 0;
         char byte_in[1];
         while (pos < bytes_waiting)
         {
             byte_num = sp_blocking_read_next(port, byte_in, 1, 0);
             byte_buff[pos] = byte_in[0];
-            
-            if (byte_in[0] == '\n') break;
-            pos++;
-        }
 
+            if (byte_in[0] == '\n') break;
+
+            pos++;
+
+            if (pos > buff_len - 1)
+            {
+                pos = 0;
+                break;
+            }
+        }
     }
 
     return byte_num;
 }
 
+
+int fdcl::serial_port::clear_buffer_until_newline(void)
+{
+    int pos = 0;
+    int byte_num, bytes_waiting;
+
+    char byte_in[1];
+    while (true)
+    {
+        bytes_waiting = sp_input_waiting(port);
+        if (bytes_waiting > 0)
+        {
+            byte_num = sp_blocking_read_next(port, byte_in, 1, 0);
+            if (byte_in[0] == '\n') break;
+        }
+    }
+
+    return byte_num;
+}
