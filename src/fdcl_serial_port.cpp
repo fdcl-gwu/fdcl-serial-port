@@ -272,7 +272,7 @@ int fdcl::serial_port::read_line(char *byte_buff, int buff_len)
         }
     }
 
-    return byte_num;
+    return bytes_waiting;
 }
 
 
